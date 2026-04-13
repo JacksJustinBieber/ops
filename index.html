@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpsPilot - AI-Native ERP for Manufacturers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #030304;
+            --dark-matter: #0F1115;
+            --white: #FFFFFF;
+            --stardust: #94A3B8;
+            --dim-boundary: #1E293B;
+            --bitcoin-orange: #F7931A;
+            --burnt-orange: #EA580C;
+            --digital-gold: #FFD600;
+            --motion-curve: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--void);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .bg-grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(30, 41, 59, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30, 41, 59, 0.4) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        .glass {
+            background: rgba(15, 17, 21, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            background: rgba(3, 3, 4, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transform: translateY(-100%);
+            animation: slideDown 0.6s var(--motion-curve) 0.3s forwards;
+        }
+
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--burnt-orange), var(--bitcoin-orange));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px -5px rgba(247, 147, 26, 0.5);
+            font-size: 18px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--stardust);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            position: relative;
+            transition: color 0.3s var(--motion-curve);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--bitcoin-orange);
+            transition: width 0.3s var(--motion-curve);
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 96px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 60% at 50% -20%, rgba(247, 147, 26, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 40% at 80% 60%, rgba(255, 214, 0, 0.08) 0%, transparent 40%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 720px;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(247, 147, 26, 0.1);
+            border: 1px solid rgba(247, 147, 26, 0.3);
+            padding: 10px 18px;
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--bitcoin-orange);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s var(--motion-curve) 0.5s forwards;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--bitcoin-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--bitcoin-orange);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px var(--bitcoin-orange); }
+            50% { opacity: 0.5; transform: scale(0.8); box-shadow: 0 0 20px var(--bitcoin-orange); }
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 7vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s var(--motion-curve) 0.7s forwards;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--bitcoin-orange), var(--digital-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--stardust);
+            max-width: 520px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s var(--motion-curve) 0.9s forwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s var(--motion-curve) 1.1s forwards;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s var(--motion-curve);
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 48px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--burnt-orange), var(--bitcoin-orange));
+            color: var(--white);
+            box-shadow: 0 0 25px -5px rgba(234, 88, 12, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 35px -5px rgba(247, 147, 26, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--bitcoin-orange);
+            background: rgba(247, 147, 26, 0.1);
+        }
+
+        .hero-visual {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 500px;
+            height: 500px;
+            opacity: 0;
+            animation: fadeIn 1s var(--motion-curve) 1.3s forwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .orbital-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+        }
+
+        .orbital-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--dark-matter), var(--void));
+            border-radius: 24px;
+            border: 1px solid rgba(247, 147, 26, 0.3);
+            box-shadow: 
+                0 0 40px -10px rgba(247, 147, 26, 0.3),
+                inset 0 0 30px rgba(247, 147, 26, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
+        }
+
+        .orbital-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid rgba(247, 147, 26, 0.2);
+        }
+
+        .orbital-ring-1 {
+            width: 250px;
+            height: 250px;
+            animation: spin 15s linear infinite;
+            border-top-color: rgba(247, 147, 26, 0.4);
+        }
+
+        .orbital-ring-2 {
+            width: 320px;
+            height: 320px;
+            animation: spin 20s linear infinite reverse;
+            border-bottom-color: rgba(255, 214, 0, 0.3);
+        }
+
+        .orbital-ring-3 {
+            width: 400px;
+            height: 400px;
+            animation: spin 25s linear infinite;
+            border-right-color: rgba(234, 88, 12, 0.2);
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .floating-card {
+            position: absolute;
+            background: rgba(15, 17, 21, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px 20px;
+            animation: bounce 6s ease-in-out infinite;
+        }
+
+        .floating-card-1 { top: 20%; left: 60%; animation-delay: 0s; }
+        .floating-card-2 { bottom: 25%; right: 55%; animation-delay: -2s; }
+        .floating-card-3 { top: 35%; left: 70%; animation-delay: -4s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-card-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--stardust);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .floating-card-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--digital-gold);
+        }
+
+        section {
+            padding: 96px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--bitcoin-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .section-desc {
+            font-size: 18px;
+            color: var(--stardust);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Problem Section */
+        .problem {
+            background: var(--dark-matter);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .problem-content h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+        }
+
+        .problem-content p {
+            font-size: 17px;
+            color: var(--stardust);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .problem-content .highlight-box {
+            background: rgba(247, 147, 26, 0.1);
+            border: 1px solid rgba(247, 147, 26, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .highlight-box h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--bitcoin-orange);
+            margin-bottom: 8px;
+        }
+
+        .highlight-box p {
+            font-size: 16px;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .tam-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .tam-card {
+            background: var(--void);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .tam-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--bitcoin-orange), var(--digital-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .tam-label {
+            font-size: 14px;
+            color: var(--stardust);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--void);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--dark-matter);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--motion-curve);
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(247, 147, 26, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.4s var(--motion-curve);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(247, 147, 26, 0.3);
+            box-shadow: 0 0 40px -15px rgba(247, 147, 26, 0.25);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(247, 147, 26, 0.1);
+            border: 1px solid rgba(247, 147, 26, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: var(--bitcoin-orange);
+            box-shadow: 0 0 20px -5px rgba(247, 147, 26, 0.3);
+            transition: all 0.3s var(--motion-curve);
+        }
+
+        .feature-card:hover .feature-icon {
+            box-shadow: 0 0 30px -5px rgba(247, 147, 26, 0.5);
+            background: rgba(247, 147, 26, 0.2);
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: var(--stardust);
+            line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--void);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--bitcoin-orange), var(--digital-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--stardust);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: var(--dark-matter);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--bitcoin-orange), var(--digital-gold), transparent);
+            opacity: 0.3;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-node {
+            width: 120px;
+            height: 120px;
+            background: var(--void);
+            border: 2px solid var(--bitcoin-orange);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s var(--motion-curve);
+            box-shadow: 0 0 25px -8px rgba(247, 147, 26, 0.3);
+        }
+
+        .step-node::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border: 1px solid rgba(247, 147, 26, 0.4);
+            border-radius: 36px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .step:hover .step-node {
+            box-shadow: 0 0 40px -10px rgba(247, 147, 26, 0.5);
+            border-color: var(--digital-gold);
+            transform: translateY(-4px);
+        }
+
+        .step:hover .step-node::before {
+            opacity: 1;
+        }
+
+        .step-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--bitcoin-orange);
+        }
+
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--digital-gold);
+            border-radius: 50%;
+            margin-top: 6px;
+            box-shadow: 0 0 10px var(--digital-gold);
+        }
+
+        .step h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .step p {
+            font-size: 15px;
+            color: var(--stardust);
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: var(--void);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            align-items: start;
+        }
+
+        .pricing-card {
+            background: var(--dark-matter);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px 32px;
+            text-align: center;
+            transition: all 0.4s var(--motion-curve);
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(247, 147, 26, 0.3);
+            box-shadow: 0 0 50px -20px rgba(247, 147, 26, 0.2);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--bitcoin-orange);
+            box-shadow: 0 0 50px -15px rgba(247, 147, 26, 0.3);
+            transform: scale(1.05);
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--burnt-orange), var(--bitcoin-orange));
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 6px 16px;
+            border-radius: 100px;
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .pricing-card:not(.featured) {
+            opacity: 0.85;
+        }
+
+        .pricing-card:not(.featured):hover {
+            opacity: 1;
+        }
+
+        .plan-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .plan-desc {
+            font-size: 14px;
+            color: var(--stardust);
+            margin-bottom: 24px;
+        }
+
+        .plan-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .plan-price span {
+            font-size: 16px;
+            color: var(--stardust);
+            font-weight: 400;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 32px 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            font-size: 14px;
+            color: var(--stardust);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: var(--digital-gold);
+            font-weight: bold;
+        }
+
+        .plan-cta {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .pricing-note {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: var(--stardust);
+        }
+
+        .pricing-note strong {
+            color: var(--bitcoin-orange);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--dark-matter);
+            text-align: center;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .contact-card {
+            background: var(--void);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s var(--motion-curve);
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .contact-card:hover {
+            border-color: rgba(247, 147, 26, 0.3);
+            box-shadow: 0 0 30px -10px rgba(247, 147, 26, 0.2);
+        }
+
+        .contact-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(247, 147, 26, 0.1);
+            border: 1px solid rgba(247, 147, 26, 0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .contact-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .contact-card p {
+            font-size: 15px;
+            color: var(--stardust);
+            margin-bottom: 20px;
+        }
+
+        .contact-card a {
+            color: var(--bitcoin-orange);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .contact-card a:hover {
+            color: var(--digital-gold);
+        }
+
+        .location-note {
+            margin-top: 48px;
+            padding: 24px;
+            background: rgba(247, 147, 26, 0.05);
+            border: 1px solid rgba(247, 147, 26, 0.2);
+            border-radius: 16px;
+            display: inline-block;
+        }
+
+        .location-note p {
+            font-size: 15px;
+            color: var(--stardust);
+            margin: 0;
+        }
+
+        .location-note strong {
+            color: var(--white);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: var(--void);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 50% at 30% 50%, rgba(247, 147, 26, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 40% at 70% 50%, rgba(255, 214, 0, 0.08) 0%, transparent 50%);
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta h2 {
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 24px;
+        }
+
+        .cta p {
+            font-size: 20px;
+            color: var(--stardust);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-matter);
+            padding: 60px 0 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .footer-logo-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--burnt-orange), var(--bitcoin-orange));
+            border-radius: 6px;
+            box-shadow: 0 0 15px -4px rgba(247, 147, 26, 0.4);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--stardust);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-copy {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--stardust);
+            font-size: 14px;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s var(--motion-curve);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .features-grid, .pricing-grid, .contact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stats-grid, .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-visual { display: none; }
+            .steps::before { display: none; }
+            .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+            .pricing-card.featured { transform: scale(1); }
+            .pricing-card.featured:hover { transform: translateY(-8px); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .nav-links { display: none; }
+            .features-grid, .stats-grid, .steps, .pricing-grid, .contact-grid, .tam-stats {
+                grid-template-columns: 1fr;
+            }
+            .hero { padding: 100px 0 60px; }
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 16px; }
+            .hero-cta { flex-direction: column; }
+            section { padding: 64px 0; }
+            .stat-value { font-size: 36px; }
+            .plan-price { font-size: 36px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <div class="logo-icon">⚡</div>
+                    OpsPilot
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#problem">Problem</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="bg-grid-pattern"></div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-tag">// AI-Native ERP</div>
+                <h1>Production Intelligence <span class="gradient-text">Reimagined</span></h1>
+                <p>OpsPilot brings intelligent automation to mid-market Indian manufacturers. Transform raw data into real-time operational decisions with AI that learns your floor.</p>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary">
+                        Book Free Factory Teardown
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0L6.5 1.5L11.5 6.5H0V7.5H11.5L6.5 12.5L8 14L16 7L8 0Z"/></svg>
+                    </a>
+                    <a href="#how-it-works" class="btn btn-secondary">See How It Works</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="orbital-container">
+                <div class="orbital-ring orbital-ring-1"></div>
+                <div class="orbital-ring orbital-ring-2"></div>
+                <div class="orbital-ring orbital-ring-3"></div>
+                <div class="orbital-core">📊</div>
+            </div>
+            <div class="floating-card floating-card-1">
+                <div class="floating-card-label">OEE Score</div>
+                <div class="floating-card-value">94.2%</div>
+            </div>
+            <div class="floating-card floating-card-2">
+                <div class="floating-card-label">Downtime</div>
+                <div class="floating-card-value">2.3h</div>
+            </div>
+            <div class="floating-card floating-card-3">
+                <div class="floating-card-label">AI Accuracy</div>
+                <div class="floating-card-value">98%</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem" id="problem">
+        <div class="container">
+            <div class="problem-grid">
+                <div class="problem-content reveal">
+                    <div class="section-tag">// The Opportunity</div>
+                    <h2>The <span class="gradient-text">Billion-Dollar</span> Problem</h2>
+                    <p>Most 50M-500M revenue manufacturers still run on 1990s ERPs + Excel + human glue. SAP is too heavy, NetSuite is too generic, and nothing speaks to machines on the factory floor.</p>
+                    <p>Labor shortage + reshoring + supply chain chaos = they'll pay 7 figures to automate ops.</p>
+                    <div class="highlight-box">
+                        <h4>The Idea</h4>
+                        <p> First AI-native ERP that replaces 5 tools: ERP, MES, WMS, forecasting, and procurement. Connect every machine + sensor + spreadsheet in 1 day, then an LLM agent runs the plant's daily "war room". Then an AI agent runs your daily war room — predicting stockouts, auto supplying, rescheduling jobs when machines fail, and telling you why in plain English.</p>
+                    </div>
+                </div>
+                <div class="tam-stats reveal">
+                    <div class="tam-card">
+                        <div class="tam-value">300K+</div>
+                        <div class="tam-label">Global Manufacturers</div>
+                    </div>
+                    <div class="tam-card">
+                        <div class="tam-value">$200K</div>
+                        <div class="tam-label">Avg ACV</div>
+                    </div>
+                    <div class="tam-card">
+                        <div class="tam-value">10K</div>
+                        <div class="tam-label">Target Customers</div>
+                    </div>
+                    <div class="tam-card">
+                        <div class="tam-value">$2B</div>
+                        <div class="tam-label">ARR Potential</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag reveal">// Capabilities</div>
+                <h2 class="section-title reveal">One AI-Native <span class="gradient-text">War Room</span></h2>
+                <p class="section-desc reveal">OpsPilot replaces 5 tools your team juggles daily with 1 intelligent system.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📡</div>
+                    <h3>Stockout Radar</h3>
+                    <p>Predicts raw material shortages 7 days before they hit production. See risk, approve PO, alert supplier — all from WhatsApp.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📝</div>
+                    <h3>Auto-PO Drafting</h3>
+                    <p>AI reads your BOM + lead times + pending POs and writes purchase orders in your format. One-tap approve to send.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Job Rescheduler</h3>
+                    <p>Machine broke? Power cut? Agent instantly reshuffles production orders to hit dispatch dates and messages shop floor.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">💬</div>
+                    <h3>Ask My Factory</h3>
+                    <p>Chatbot that answers in Hindi/English: "Why was dispatch late last Tuesday?" Pulls from Tally + Excel + POs + WhatsApp logs.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>10-Day Onboarding</h3>
+                    <p>We connect Tally, Zoho, SAP B1, and your cursed Excel in 1 week. No IT team needed. No 18-month implementation.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📱</div>
+                    <h3>WhatsApp Native</h3>
+                    <p>All alerts, approvals, and daily summaries come to your phone. Zero training. Your supervisor is already using it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item reveal">
+                    <div class="stat-value">60%</div>
+                    <div class="stat-label">Less Downtime</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-value">40%</div>
+                    <div class="stat-label">Cost Reduction</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-value">2.5x</div>
+                    <div class="stat-label">ROI in Year 1</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">Factories Running</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag reveal">// Process</div>
+                <h2 class="section-title reveal">No Rip-and-Replace. <span class="gradient-text">3 Steps.</span></h2>
+                <p class="section-desc reveal">No PhD in SAP required. Just connect, learn, and run from WhatsApp.</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step reveal">
+                    <div class="step-node">
+                        <span class="step-number">01</span>
+                        <span class="step-dot"></span>
+                    </div>
+                    <h3>Connect Your Data</h3>
+                    <p>Share Tally backup, Excel sheets, or Zoho login. We auto-map items, BOM, and suppliers in 48 hours.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-node">
+                        <span class="step-number">02</span>
+                        <span class="step-dot"></span>
+                    </div>
+                    <h3>AI Learns Your Plant</h3>
+                    <p>OpsPilot studies 6 months of history — lead times, job work quirks, seasonal demand, and "jugaad".</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-node">
+                        <span class="step-number">03</span>
+                        <span class="step-dot"></span>
+                    </div>
+                    <h3>Run From WhatsApp</h3>
+                    <p>Every morning 8am: "Top 3 risks today". Tap Approve to send PO. Ask anything. OpsPilot handles the fire-fighting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag reveal">// Pricing</div>
+                <h2 class="section-title reveal">Simple. <span class="gradient-text">No Hidden Costs.</span></h2>
+                <p class="section-desc reveal">No per-user fees. No hidden implementation cost. Just one flat monthly price.</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card reveal">
+                    <h3 class="plan-name">Lite</h3>
+                    <p class="plan-desc">1 plant, under 100 SKUs</p>
+                    <div class="plan-price">$599<span>/mo</span></div>
+                    <ul class="plan-features">
+                        <li>Stockout Radar</li>
+                        <li>Auto-PO Drafting</li>
+                        <li>WhatsApp Alerts</li>
+                        <li>10-Day Onboarding</li>
+                        <li>Tally/Zoho Connectors</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-secondary plan-cta">Get Started</a>
+                </div>
+                
+                <div class="pricing-card featured reveal">
+                    <h3 class="plan-name">Pro</h3>
+                    <p class="plan-desc">1-3 plants, under 1000 SKUs</p>
+                    <div class="plan-price">$1,499<span>/mo</span></div>
+                    <ul class="plan-features">
+                        <li>Everything in Lite</li>
+                        <li>Job Rescheduler</li>
+                        <li>Ask My Factory AI</li>
+                        <li>3 User Seats</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary plan-cta">Get Started</a>
+                </div>
+                
+                <div class="pricing-card reveal">
+                    <h3 class="plan-name">Enterprise</h3>
+                    <p class="plan-desc">3+ plants, custom workflows</p>
+                    <div class="plan-price">Custom</div>
+                    <ul class="plan-features">
+                        <li>Everything in Pro</li>
+                        <li>IoT Connectors</li>
+                        <li>Custom AI Agents</li>
+                        <li>Dedicated Support</li>
+                        <li>SLA Guarantee</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-secondary plan-cta">Contact Us</a>
+                </div>
+            </div>
+            
+            <p class="pricing-note">All plans include: Tally/Zoho/Excel connectors, daily WhatsApp war room, Tax-ready POs. <strong>Annual plans get 2 months free.</strong></p>
+            <p class="pricing-note" style="margin-top: 16px;"><strong>Pilot offer:</strong> Pay only if we prevent your next stockout. 30-day trial.</p>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag reveal">// Contact</div>
+                <h2 class="section-title reveal">Stop Losing Days to <span class="gradient-text">Excel.</span></h2>
+                <p class="section-desc reveal">Let's do a free Factory Teardown. No PPTs. No sales team. You'll talk to the engineers who built it.</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-card reveal">
+                    <div class="contact-icon">📞</div>
+                    <h3>Book a Call</h3>
+                    <p>15-min live analysis of your production Excel. We'll show your top 3 stockout risks.</p>
+                    <a href="#">Schedule Demo →</a>
+                </div>
+                
+                <div class="contact-card reveal">
+                    <div class="contact-icon">💬</div>
+                    <h3>WhatsApp Us</h3>
+                    <p>Send "TEARDOWN" + your factory name + city. We'll respond within 2 hours.</p>
+                    <a href="#">+91 7666466733 →</a>
+                </div>
+                
+                <div class="contact-card reveal">
+                    <div class="contact-icon">✉️</div>
+                    <h3>Email Us</h3>
+                    <p>For detailed inquiries or scheduling visits to your factory.</p>
+                    <a href="mailto:founder@opspilot.in">datastructuresun@gmail.com →</a>
+                </div>
+            </div>
+            
+            <div class="location-note">
+                <p>Based in <strong>Nagpur, Maharashtra</strong>. We visit factories in MIDC across <strong>Palghar, Pune, Nashik, Aurangabad, Coimbatore</strong>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="reveal">Ready to <span class="gradient-text">Transform</span> Your Operations?</h2>
+                <p class="reveal">Join 500+ Indian manufacturers already running smarter with OpsPilot.</p>
+                <div class="reveal">
+                    <a href="#contact" class="btn btn-primary">
+                        Get Started Free
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0L6.5 1.5L11.5 6.5H0V7.5H11.5L6.5 12.5L8 14L16 7L8 0Z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="#" class="footer-logo">
+                    <div class="footer-logo-icon"></div>
+                    OpsPilot
+                </a>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-copy">
+                © 2026 OpsPilot. Made for Indian Manufacturers.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const revealElements = document.querySelectorAll('.reveal, .section-tag, .section-title, .section-desc');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            
+            revealElements.forEach((el, index) => {
+                const elementTop = el.getBoundingClientRect().top;
+                const revealPoint = 150;
+                
+                if (elementTop < windowHeight - revealPoint) {
+                    setTimeout(() => {
+                        el.classList.add('active');
+                    }, index * 100);
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
